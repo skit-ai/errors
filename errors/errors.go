@@ -56,10 +56,10 @@ func Fatal(err error) (isFatal bool) {
 // - fatality interface from FSM
 // It represents a rung in the chain of errors leading to the cause.
 type rung struct {
-	msg   string
-	cause error
-	fatal bool
-	tags  map[string]string
+	msg    string
+	cause  error
+	fatal  bool
+	tags   map[string]string
 	extras map[string]interface{}
 	ignore bool
 }
@@ -96,40 +96,45 @@ func (e *rung) Ignore() bool {
 	return e.ignore
 }
 
-// Creates an error which is chained with a cause
-func NewError(_msg string, _cause error, _fatal bool) error {
-	return NewErrorWithTags(_msg, _cause, _fatal, nil)
+func NewError(_msg string, v ...interface{}) error {
+	return newError(nil, false, false, nil, nil, _msg, v...)
 }
 
-// Creates an error which is chained with a cause
-func NewErrorWithTags(_msg string, _cause error, _fatal bool, _tags map[string]string) error {
-	err := &rung{
-		cause: _cause,
-		msg:   _msg,
-		fatal: _fatal,
-		tags:  _tags,
-	}
-	return _err.WithStack(err)
+func Chain(_cause error, _msg string, v ...interface{}) error {
+	return newError(_cause, false, false, nil, nil, _msg, v...)
 }
 
-// Creates an error which is chained with a cause
-func NewErrorWithExtras(_msg string, _cause error, _fatal bool, _extras map[string]interface{}) error {
+func NewFatal(_msg string, v ...interface{}) error {
+	return newError(nil, true, false, nil, nil, _msg, v...)
+}
+
+func ChainFatal(_cause error, _msg string, v ...interface{}) error {
+	return newError(_cause, true, false, nil, nil, _msg, v...)
+}
+
+func NewIgnorable(_msg string, v ...interface{}) error {
+	return newError(nil, false, true, nil, nil, _msg, v...)
+}
+
+func ChainIgnorable(_cause error, _msg string, v ...interface{}) error {
+	return newError(_cause, false, true, nil, nil, _msg, v...)
+}
+
+func NewErrorWithTags(_cause error, _fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
+	return newError(_cause, _fatal, false, _tags, nil, _msg, v...)
+}
+
+func NewErrorWithExtras(_cause error, _fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
+	return newError(_cause, _fatal, false, nil, _extras, _msg, v...)
+}
+
+func newError(_cause error, _fatal, ignore bool, _tags map[string]string, _extras map[string]interface{}, _msg string, v ...interface{}) error {
 	err := &rung{
 		cause:  _cause,
-		msg:    _msg,
+		msg:    fmt.Sprintf(_msg, v...),
 		fatal:  _fatal,
-		tags:   nil,
+		tags:   _tags,
 		extras: _extras,
-	}
-	return _err.WithStack(err)
-}
-
-// NewErrorToIgnore returns an error that informs loggers to ignore it
-func NewErrorToIgnore(_msg string, _cause error, _fatal, ignore bool) error {
-	err := &rung{
-		cause:  _cause,
-		msg:    _msg,
-		fatal:  _fatal,
 		ignore: ignore,
 	}
 	return _err.WithStack(err)
