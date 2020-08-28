@@ -1,6 +1,6 @@
 # Errors
 
-A wrapper package over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was move out of [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) for indepenedent use and development for its first major release.
+A wrapper over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was moved out of [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) for indepenedent use and development.
 
 # Usage
 
@@ -15,13 +15,13 @@ Then import this package as `import "github.com/Vernacular-ai/errors"`.
 
 # Migration from vcore/errors
 
-The major difference between this major release and the version in [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) is that functions have been demarcated with the functionality they provide and the context they are used in. So to simply create a new error, all you need to do is call the `NewError` functions with a message string. For example:
+The major difference between this major release and the version in [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) is that functions have been demarcated with the functionality they provide and the context they are used in. So to create a basic new error now, all you need to do is call the `NewError` function with a message string. For example:
 
 ```go
 err := NewError("Error happened")
 ```
 
-Almost all of the functions support formatted string format so you can also do something like:
+Almost all of the functions support formatted strings so you can also do something like:
  
 ```go
 num := 5
