@@ -120,11 +120,19 @@ func ChainIgnorable(_cause error, _msg string, v ...interface{}) error {
 	return newError(_cause, false, true, nil, nil, _msg, v...)
 }
 
-func NewErrorWithTags(_cause error, _fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
+func NewErrorWithTags(_fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
+	return newError(nil, _fatal, false, _tags, nil, _msg, v...)
+}
+
+func NewErrorWithExtras(_fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
+	return newError(nil, _fatal, false, nil, _extras, _msg, v...)
+}
+
+func ChainErrorWithTags(_cause error, _fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
 	return newError(_cause, _fatal, false, _tags, nil, _msg, v...)
 }
 
-func NewErrorWithExtras(_cause error, _fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
+func ChainErrorWithExtras(_cause error, _fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
 	return newError(_cause, _fatal, false, nil, _extras, _msg, v...)
 }
 
