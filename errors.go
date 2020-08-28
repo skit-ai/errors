@@ -96,46 +96,57 @@ func (e *rung) Ignore() bool {
 	return e.ignore
 }
 
+// NewError takes in a string input and returns an error with the input as its message
 func NewError(_msg string, v ...interface{}) error {
 	return newError(nil, false, false, nil, nil, _msg, v...)
 }
 
+// Chain takes an error as a cause with a string message and returns an error having a cause "_cause" and it's message as "_msg". Thus it chains the new error with the input error.
 func Chain(_cause error, _msg string, v ...interface{}) error {
 	return newError(_cause, false, false, nil, nil, _msg, v...)
 }
 
+// NewFatal returns a fatal error. Rest of it's functionality is same as NewError.
 func NewFatal(_msg string, v ...interface{}) error {
 	return newError(nil, true, false, nil, nil, _msg, v...)
 }
 
+// ChainFatal returns a fatal error chained with the input error.
 func ChainFatal(_cause error, _msg string, v ...interface{}) error {
 	return newError(_cause, true, false, nil, nil, _msg, v...)
 }
 
+// NewIgnorable returns an error which is ignorable by loggers.
 func NewIgnorable(_msg string, v ...interface{}) error {
 	return newError(nil, false, true, nil, nil, _msg, v...)
 }
 
+// ChainIgnorable returns an ignorable error chained with the input error.
 func ChainIgnorable(_cause error, _msg string, v ...interface{}) error {
 	return newError(_cause, false, true, nil, nil, _msg, v...)
 }
 
+// NewErrorWithTags returns an error with tags associated with it and fatality provided in the input
 func NewErrorWithTags(_fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
 	return newError(nil, _fatal, false, _tags, nil, _msg, v...)
 }
 
-func NewErrorWithExtras(_fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
-	return newError(nil, _fatal, false, nil, _extras, _msg, v...)
-}
-
+// ChainErrorWithTags returns an error with tags chained with the input error
 func ChainErrorWithTags(_cause error, _fatal bool, _tags map[string]string, _msg string, v ...interface{}) error {
 	return newError(_cause, _fatal, false, _tags, nil, _msg, v...)
 }
 
+// NewErrorWithExtras returns an error with extras associated with it and fatality provided in the input
+func NewErrorWithExtras(_fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
+	return newError(nil, _fatal, false, nil, _extras, _msg, v...)
+}
+
+// ChainErrorWithExtras returns an error with extras chained with the input error
 func ChainErrorWithExtras(_cause error, _fatal bool, _extras map[string]interface{}, _msg string, v ...interface{}) error {
 	return newError(_cause, _fatal, false, nil, _extras, _msg, v...)
 }
 
+// newError is a generic function used for creating new errors
 func newError(_cause error, _fatal, ignore bool, _tags map[string]string, _extras map[string]interface{}, _msg string, v ...interface{}) error {
 	err := &rung{
 		cause:  _cause,
@@ -197,6 +208,7 @@ type causer interface {
 	Cause() error
 }
 
+// Tags returns all the tags associated with the input error and all of its causes
 func Tags(err error) (cumulativeTags map[string]string) {
 	type tagged interface {
 		Tags() map[string]string
@@ -233,6 +245,7 @@ func Tags(err error) (cumulativeTags map[string]string) {
 	return
 }
 
+// Extras returns all the extras associated with the input error and all of its causes
 func Extras(err error) (cumulativeExtras map[string]interface{}) {
 	type extra interface {
 		Extras() map[string]interface{}
@@ -269,6 +282,7 @@ func Extras(err error) (cumulativeExtras map[string]interface{}) {
 	return
 }
 
+// Ignore returns true if the input error or any of its children causes are expected to be ignored. Otherwise it returns false
 func Ignore(err error) bool {
 	type ignore interface {
 		Ignore() bool
