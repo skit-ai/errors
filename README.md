@@ -1,6 +1,6 @@
 # Errors
 
-A wrapper over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was moved out of [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) for indepenedent use and development.
+A wrapper over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was moved out of [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) for independent use and development.
 
 # Usage
 
