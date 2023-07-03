@@ -1,4 +1,4 @@
-module github.com/Vernacular-ai/errors
+module github.com/skit-ai/errors
 
 go 1.13
 
