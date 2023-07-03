@@ -1,6 +1,6 @@
 # Errors
 
-A wrapper over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was moved out of [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) for independent use and development.
+A wrapper over [pkg/errors](https://github.com/pkg/errors) to enrich and enhance error handling. This package was moved out of [vcore/errors](https://github.com/skit-ai/vcore/tree/master/errors) for independent use and development.
 
 # Usage
 
@@ -8,14 +8,14 @@ To use this package, you need to have [pkg/errors](https://github.com/pkg/errors
 
 ```shell
 go get github.com/pkg/errors
-go get github.com/Vernacular-ai/errors
+go get github.com/skit-ai/errors
 ```
 
-Then import this package as `import "github.com/Vernacular-ai/errors"`.
+Then import this package as `import "github.com/skit-ai/errors"`.
 
 # Migration from vcore/errors
 
-The major difference between this major release and the version in [vcore/errors](https://github.com/Vernacular-ai/vcore/tree/master/errors) is that functions have been demarcated with the functionality they provide and the context they are used in. So to create a basic new error now, all you need to do is call the `NewError` function with a message string. For example:
+The major difference between this major release and the version in [vcore/errors](https://github.com/skit-ai/vcore/tree/master/errors) is that functions have been demarcated with the functionality they provide and the context they are used in. So to create a basic new error now, all you need to do is call the `NewError` function with a message string. For example:
 
 ```go
 err := NewError("Error happened")
@@ -39,4 +39,4 @@ err = ChainError(err, "This happened due to another error")
 
 All functions starting with *New*- in their name returns a fresh new error and those with *Chain*- in their name returns an `error` chained with the input `error`.
 
-Check out the [docs](https://godoc.org/github.com/Vernacular-ai/errors) to know more.
+Check out the [docs](https://godoc.org/github.com/skit-ai/errors) to know more.
